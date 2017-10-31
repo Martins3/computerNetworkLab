@@ -267,6 +267,7 @@ public class FileSender implements Runnable{
                 new DatagramPacket(sendData, sendData.length, address, port);
         try {
             sendSocket.send(sendPacket);
+            System.out.printf("发送package" + sendPkgNum);
         } catch (IOException e) {
             e.printStackTrace();
         }

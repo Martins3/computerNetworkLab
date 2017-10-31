@@ -47,8 +47,12 @@ public class Client implements Runnable {
     private FileReceiver fileReceiver;
     private Scene mainScene;
     private Stage window;
+    private String myName = null;
+    private String receiveDir = null;
 
-
+    public String getMyName() {
+        return myName;
+    }
 
     public int getReceivePort() {
         return clientReceive.getReceivePort();
@@ -119,7 +123,7 @@ public class Client implements Runnable {
                         // server 发送的时候不会清除 connectedUserID
                         // by this way, we
                         clientSend.setUserId(mess.myID);
-
+                        myName = mess.myID;
 
                         // 只有登录完成之后才可以实现文件的传输
 
@@ -217,5 +221,13 @@ public class Client implements Runnable {
 
     public void setServerIP(String text) {
         clientSend.setServerHostname(text);
+    }
+
+    public void setReceiveDir(String receiveDir) {
+        this.receiveDir = receiveDir;
+    }
+
+    public String getReceiveDir() {
+        return receiveDir;
     }
 }

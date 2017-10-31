@@ -53,7 +53,7 @@
                      <Insets bottom="10.0" />
                   </opaqueInsets>
                </Label>
-               <Label fx:id="userCountLabel" alignment="CENTER" prefHeight="28.0" prefWidth="95.0" text="0" textFill="#fc6747">
+               <Label fx:id="userCountLabel" alignment="CENTER" prefHeight="28.0" prefWidth="95.0" textFill="#fc6747">
                   <opaqueInsets>
                      <Insets />
                   </opaqueInsets>
@@ -80,7 +80,7 @@
                    <Insets bottom="10.0" />
                </opaqueInsets>
            </Label>
-           <Label fx:id="offlineUserCountLabel" alignment="CENTER" prefHeight="30.0" prefWidth="80.0" text="0" textFill="#fc6747">
+           <Label fx:id="offlineUserCountLabel" alignment="CENTER" prefHeight="30.0" prefWidth="80.0"  textFill="#fc6747">
                <opaqueInsets>
                    <Insets />
                </opaqueInsets>
@@ -104,7 +104,7 @@
 
              <!--退出标志 可以让人回到登录的状态-->
              <ImageView fitHeight="23.0" fitWidth="30.0" onMousePressed="#logoutImgViewPressedAction" pickOnBounds="true" preserveRatio="true" styleClass="button">
-                     <Image url="@../rsc/images/logout.png" />
+                     <Image url="@../rsc/images/logoutOne.png" />
                   <HBox.margin>
                      <Insets right="30.0" top="30.0" />
                   </HBox.margin>
@@ -180,7 +180,6 @@
 
          </Label>
       </center>
-
    </BorderPane>
 </top>
 <rotationAxis>

@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import yuema.local.Client;
@@ -181,9 +182,14 @@ public class MainWindow implements Initializable {
     }
 
     // 回到登录界面的位置
+    // 不会保证文件传输没有问题, 如果不选择地址的话
     public void logoutImgViewPressedAction(MouseEvent mouseEvent) {
-        System.out.println("not implemented !");
+                    DirectoryChooser directoryChooser = new DirectoryChooser();
+                    File selectedDirectory =
+                            directoryChooser.showDialog(new Stage());
+                    client.setReceiveDir(selectedDirectory.toString());
     }
+
 
 
 
@@ -222,7 +228,7 @@ public class MainWindow implements Initializable {
 
     // 点击人物的头像的结果
     public void clickImage(MouseEvent mouseEvent) {
-
+        AlertBox.showMe(client.getMyName());
     }
 
 

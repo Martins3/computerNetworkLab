@@ -1,26 +1,18 @@
 package yuema.FileTransfer;
 
-import com.google.gson.Gson;
 import yuema.local.Client;
 import yuema.message.ConnectType;
 import yuema.message.MessageContent;
 import yuema.message.MessageType;
 
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.Arrays;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.TreeSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -45,7 +37,7 @@ public class FileReceiver implements Runnable{
     private static volatile FileReceiver instance;
     private DatagramSocket serverSocket;
 
-    private final String dir = "/home/martin/Network/download/";
+    private String dir = "/home/martin/Network/download/";
     private byte [] sendData; // 发送的数据一定是一个ack,直接为int
     private byte[] receiveData;
     private DatagramPacket receivePacket; // 防止反复创建新的对象
@@ -106,9 +98,10 @@ public class FileReceiver implements Runnable{
                 if(file.messageType == MessageType.POISON) break;
 
                 // 弹出选择框图来,告诉接受方选择
-                
-
                 // 可以进行打断的
+                if(client.getReceiveDir() != null){
+                    dir = client.getReceiveDir();
+                }
 
                 MessageContent mc = new MessageContent(MessageType.PERMIT_SEND_FILE);
                 mc.connectType = ConnectType.CLIENT;
@@ -129,6 +122,7 @@ public class FileReceiver implements Runnable{
 
             String fileName = file.fileName;
             ByteBuffer fileInRam = ByteBuffer.allocate(byteSize);
+            System.out.println("start receive\n receive dir :" + dir+'\n');
 
 
             while (true) {
@@ -162,6 +156,7 @@ public class FileReceiver implements Runnable{
                         new DatagramPacket(sendData, sendData.length, IPAddress, port);
                 try {
                     serverSocket.send(sendPacket);
+                    System.out.printf("发送ACK" + seqNum);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
