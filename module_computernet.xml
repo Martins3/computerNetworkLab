@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_computernet" default="compile.module.computernet">
+  <dirname property="module.computernet.basedir" file="${ant.file.module_computernet}"/>
+  
+  <property name="module.jdk.home.computernet" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.computernet" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.computernet" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.computernet" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="computernet.output.dir" value="${module.computernet.basedir}/out/production/ComputerNet"/>
+  <property name="computernet.testoutput.dir" value="${module.computernet.basedir}/out/test/ComputerNet"/>
+  
+  <path id="computernet.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="computernet.module.production.classpath">
+    <path refid="${module.jdk.classpath.computernet}"/>
+    <pathelement location="${basedir}/../gson-2.8.2.jar"/>
+    <pathelement location="${basedir}/../jfoenix.jar"/>
+    <pathelement location="${basedir}/../guava-23.0.jar"/>
+    <pathelement location="${basedir}/../commons-codec-1.11.jar"/>
+  </path>
+  
+  <path id="computernet.runtime.production.module.classpath">
+    <pathelement location="${computernet.output.dir}"/>
+    <pathelement location="${basedir}/../gson-2.8.2.jar"/>
+    <pathelement location="${basedir}/../jfoenix.jar"/>
+    <pathelement location="${basedir}/../guava-23.0.jar"/>
+    <pathelement location="${basedir}/../commons-codec-1.11.jar"/>
+  </path>
+  
+  <path id="computernet.module.classpath">
+    <path refid="${module.jdk.classpath.computernet}"/>
+    <pathelement location="${computernet.output.dir}"/>
+    <pathelement location="${basedir}/../gson-2.8.2.jar"/>
+    <pathelement location="${basedir}/../jfoenix.jar"/>
+    <pathelement location="${basedir}/../guava-23.0.jar"/>
+    <pathelement location="${basedir}/../commons-codec-1.11.jar"/>
+  </path>
+  
+  <path id="computernet.runtime.module.classpath">
+    <pathelement location="${computernet.testoutput.dir}"/>
+    <pathelement location="${computernet.output.dir}"/>
+    <pathelement location="${basedir}/../gson-2.8.2.jar"/>
+    <pathelement location="${basedir}/../jfoenix.jar"/>
+    <pathelement location="${basedir}/../guava-23.0.jar"/>
+    <pathelement location="${basedir}/../commons-codec-1.11.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.computernet">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.computernet">
+    <patternset refid="excluded.from.module.computernet"/>
+  </patternset>
+  
+  <path id="computernet.module.sourcepath">
+    <dirset dir="${module.computernet.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.computernet" depends="compile.module.computernet.production,compile.module.computernet.tests" description="Compile module ComputerNet"/>
+  
+  <target name="compile.module.computernet.production" depends="register.custom.compilers" description="Compile module ComputerNet; production classes">
+    <mkdir dir="${computernet.output.dir}"/>
+    <javac2 destdir="${computernet.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.computernet}/javac">
+      <compilerarg line="${compiler.args.computernet}"/>
+      <bootclasspath refid="computernet.module.bootclasspath"/>
+      <classpath refid="computernet.module.production.classpath"/>
+      <src refid="computernet.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.computernet"/>
+    </javac2>
+    
+    <copy todir="${computernet.output.dir}">
+      <fileset dir="${module.computernet.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.computernet.tests" depends="register.custom.compilers,compile.module.computernet.production" description="compile module ComputerNet; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.computernet" description="cleanup module">
+    <delete dir="${computernet.output.dir}"/>
+    <delete dir="${computernet.testoutput.dir}"/>
+  </target>
+</project>

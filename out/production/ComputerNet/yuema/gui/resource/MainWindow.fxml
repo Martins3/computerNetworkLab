@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Point3D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="borderPane" maxHeight="620.0" maxWidth="1040.0" prefHeight="620.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yuema.gui.MainWindow">
+<center>
+   <VBox maxHeight="600" maxWidth="1.7976931348623157E308">
+         <!--消息的列表-->
+         <ScrollPane fx:id="chatLogContainer" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="400" maxWidth="1.7976931348623157E308" pannable="true" prefHeight="496.0" vbarPolicy="ALWAYS" vmin="1.0" vvalue="1.0" VBox.vgrow="ALWAYS">
+         </ScrollPane>
+
+         <!--发送消息的界面-->
+       <!-- 如何实现enter 发送消息 -->
+       <TextArea fx:id="messageBoxTextArea" maxHeight="200" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="100.0" nodeOrientation="LEFT_TO_RIGHT" onKeyPressed="#sendMethod" prefHeight="117.0" prefWidth="823.0" promptText="Enter Message..." scaleShape="false" HBox.hgrow="ALWAYS">
+           <font>
+               <Font name="Arial" size="18.0" />
+           </font>
+       </TextArea>
+
+      <opaqueInsets>
+         <Insets />
+      </opaqueInsets>
+      <cursor>
+         <Cursor fx:constant="DEFAULT" />
+      </cursor>
+   </VBox>
+
+</center>
+<left>
+   <VBox maxHeight="1.7976931348623157E308" BorderPane.alignment="CENTER">
+         <!-- 用户列表说明 -->
+         <HBox fx:id="onlineUsersHbox" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="217.0" stylesheets="@../rsc/css/ListViewStyle.css">
+               <Label prefHeight="28.0" prefWidth="149.0" text="Online Users:" textAlignment="CENTER" textFill="#fc6747">
+                  <font>
+                     <Font name="SansSerif Regular" size="18.0" />
+                  </font>
+                  <padding>
+                     <Insets left="10.0" />
+                  </padding>
+                  <opaqueInsets>
+                     <Insets bottom="10.0" />
+                  </opaqueInsets>
+               </Label>
+               <Label fx:id="userCountLabel" alignment="CENTER" prefHeight="28.0" prefWidth="95.0" text="0" textFill="#fc6747">
+                  <opaqueInsets>
+                     <Insets />
+                  </opaqueInsets>
+                  <font>
+                     <Font name="SansSerif Regular" size="18.0" />
+                  </font>
+               </Label>
+         </HBox>
+
+       <!-- 在线用户的列表 -->
+       <ListView fx:id="onlineUserListView" focusTraversable="false" maxHeight="1.7976931348623157E308" onMouseClicked="#clickOnlineUser" prefHeight="495.0" prefWidth="217.0" style="-fx-border-image-width: 0;">
+       </ListView>
+
+       <!-- 离线用户说明 -->
+       <HBox fx:id="offlineUsersHbox" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="217.0" stylesheets="@../rsc/css/ListViewStyle.css">
+           <Label prefHeight="30.0" prefWidth="148.0" text="Offline Users:" textAlignment="CENTER" textFill="#fc6747">
+               <font>
+                   <Font name="SansSerif Regular" size="18.0" />
+               </font>
+               <padding>
+                   <Insets left="10.0" />
+               </padding>
+               <opaqueInsets>
+                   <Insets bottom="10.0" />
+               </opaqueInsets>
+           </Label>
+           <Label fx:id="offlineUserCountLabel" alignment="CENTER" prefHeight="30.0" prefWidth="80.0" text="0" textFill="#fc6747">
+               <opaqueInsets>
+                   <Insets />
+               </opaqueInsets>
+               <font>
+                   <Font name="SansSerif Regular" size="18.0" />
+               </font>
+           </Label>
+       </HBox>
+
+       <!-- 非在线用户的列表 -->
+       <ListView fx:id="offlineUserListView" focusTraversable="false" maxHeight="1.7976931348623157E308" onMouseClicked="#clickOfflineUser" prefHeight="495.0" prefWidth="217.0" style="-fx-border-image-width: 0;">
+       </ListView>
+
+
+   </VBox>
+</left>
+<top>
+   <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #031c30;" BorderPane.alignment="CENTER">
+      <right>
+         <HBox prefHeight="24.0" prefWidth="30.0" stylesheets="@../rsc/css/ButtonStyle.css" BorderPane.alignment="CENTER">
+
+             <!--退出标志 可以让人回到登录的状态-->
+             <ImageView fitHeight="23.0" fitWidth="30.0" onMousePressed="#logoutImgViewPressedAction" pickOnBounds="true" preserveRatio="true" styleClass="button">
+                     <Image url="@../rsc/images/logout.png" />
+                  <HBox.margin>
+                     <Insets right="30.0" top="30.0" />
+                  </HBox.margin>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+             </ImageView>
+
+
+             <ImageView fitHeight="23.0" fitWidth="30.0" onMousePressed="#addFriends" pickOnBounds="true" preserveRatio="true" styleClass="button">
+                 <Image url="@../rsc/images/All.png" />
+                 <HBox.margin>
+                     <Insets right="30.0" top="30.0" />
+                 </HBox.margin>
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor>
+             </ImageView>
+
+
+             <ImageView fitHeight="23.0" fitWidth="30.0" onMousePressed="#setSecurityQuestionOrPassword" pickOnBounds="true" preserveRatio="true" styleClass="button">
+                 <Image url="@../rsc/images/settings.png" />
+                 <HBox.margin>
+                     <Insets right="30.0" top="30.0" />
+                 </HBox.margin>
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor>
+             </ImageView>
+
+             <ImageView fitHeight="23.0" fitWidth="30.0" onMousePressed="#chooseSendFile" pickOnBounds="true" preserveRatio="true" styleClass="button">
+                 <Image url="@../rsc/images/file.png" />
+                 <HBox.margin>
+                     <Insets right="30.0" top="30.0" />
+                 </HBox.margin>
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor>
+             </ImageView>
+
+         </HBox>
+      </right>
+      <left>
+          <!-- 人物头像 -->
+         <HBox prefWidth="259.0" BorderPane.alignment="CENTER">
+               <ImageView fx:id="userImageView" fitHeight="69.0" fitWidth="59.0" onMouseClicked="#clickImage" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../rsc/images/User.png" />
+                  <HBox.margin>
+                     <Insets left="10.0" top="10.0" />
+                  </HBox.margin>
+               </ImageView>
+               <VBox>
+                  <HBox.margin>
+                     <Insets left="10.0" top="30.0" />
+                  </HBox.margin>
+                     <Label fx:id="usernameLabel" textFill="#fa6648">
+                        <font>
+                           <Font size="24.0" />
+                        </font>
+                     </Label>
+               </VBox>
+         </HBox>
+      </left>
+
+      <center>
+         <Label fx:id="connectedUserName" alignment="CENTER" prefHeight="76.0" prefWidth="556.0" textFill="#bfbfbf" BorderPane.alignment="CENTER">
+            <font>
+               <Font name="Arial Bold" size="36.0" />
+            </font>
+             <text>
+                 City Date
+             </text>
+
+         </Label>
+      </center>
+
+   </BorderPane>
+</top>
+<rotationAxis>
+   <Point3D />
+</rotationAxis>
+</BorderPane>

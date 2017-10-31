@@ -1,0 +1,22 @@
+package yuema.message;
+
+/**
+ * Created by martin on 17-10-13.
+ */
+public enum  MessageType {
+
+    CS_LOGIN, CS_SIGN_UP, CS_CHECK_SET, CS_CHECK_QUERY
+    ,CS_NEW_PASSWORD,CS_FIND_FRIEND,CS_LOGOUT,
+    CC_USER_ID, // 客户之间的通信 只需要指出名称
+
+    SC_LOGIN_OK,SC_LOGIN_FAIL,SC_FRIEND_UP, SC_FRIEND_DOWN,SC_CHECK_FAIL, SC_CHECK_OK,
+    SC_SIGN_UP_FAIL, SC_SIGN_UP_OK, SC_NO_SUCH_GUY, SC_RESET_OK,
+
+
+    COMMON_MESSAGE,
+    POISON,
+    REQUEST_SEND_FILE,
+    REQUEST_SEND_LOCAL,
+    PERMIT_SEND_FILE,
+    SEND_FILE_REJECT
+}
