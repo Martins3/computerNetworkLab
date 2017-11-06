@@ -102,6 +102,14 @@
       <right>
          <HBox prefHeight="24.0" prefWidth="30.0" stylesheets="@../rsc/css/ButtonStyle.css" BorderPane.alignment="CENTER">
 
+
+             <Label fx:id ="speed" text="0000" minWidth="70" styleClass="button">
+                 <HBox.margin>
+                     <Insets right="30.0" top="30.0" />
+                 </HBox.margin>
+             </Label>
+
+
              <!--退出标志 可以让人回到登录的状态-->
              <ImageView fitHeight="23.0" fitWidth="30.0" onMousePressed="#logoutImgViewPressedAction" pickOnBounds="true" preserveRatio="true" styleClass="button">
                      <Image url="@../rsc/images/logoutOne.png" />
@@ -144,6 +152,9 @@
                      <Cursor fx:constant="HAND" />
                  </cursor>
              </ImageView>
+
+
+
 
          </HBox>
       </right>

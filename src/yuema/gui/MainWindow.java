@@ -26,6 +26,7 @@ import java.io.*;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -41,6 +42,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class MainWindow implements Initializable {
 
+    public Label speed;
     @FXML
     private ScrollPane chatLogContainer;
 
@@ -184,10 +186,9 @@ public class MainWindow implements Initializable {
     // 回到登录界面的位置
     // 不会保证文件传输没有问题, 如果不选择地址的话
     public void logoutImgViewPressedAction(MouseEvent mouseEvent) {
-                    DirectoryChooser directoryChooser = new DirectoryChooser();
-                    File selectedDirectory =
-                            directoryChooser.showDialog(new Stage());
-                    client.setReceiveDir(selectedDirectory.toString());
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(new Stage());
+        client.setReceiveDir(selectedDirectory.toString());
     }
 
 
@@ -308,6 +309,13 @@ public class MainWindow implements Initializable {
         }else{
             System.out.println("!!!!!!!!!!!!!!!! impossible !!!!!!!!!!!!!!!!!!!!!!!!!");
         }
+    }
+
+    public void setSpeed(double x){
+        DecimalFormat df2 = new DecimalFormat(".##");
+        Platform.runLater(() ->{
+            speed.setText(df2.format(x));
+        });
     }
 
 

@@ -230,4 +230,8 @@ public class Client implements Runnable {
     public String getReceiveDir() {
         return receiveDir;
     }
+
+    public void setSpeed(double x){
+        mainWindowLoader.setSpeed(x);
+    }
 }

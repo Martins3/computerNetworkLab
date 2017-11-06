@@ -123,6 +123,7 @@ public class FileReceiver implements Runnable{
             String fileName = file.fileName;
             ByteBuffer fileInRam = ByteBuffer.allocate(byteSize);
             System.out.println("start receive\n receive dir :" + dir+'\n');
+            System.out.println("the largest ack is " + (totalPackageNumber - 1));
 
 
             while (true) {
@@ -156,7 +157,7 @@ public class FileReceiver implements Runnable{
                         new DatagramPacket(sendData, sendData.length, IPAddress, port);
                 try {
                     serverSocket.send(sendPacket);
-                    System.out.printf("发送ACK" + seqNum);
+//                    System.out.printf("发送ACK" + seqNum);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -20,6 +20,7 @@ import yuema.message.MessageType;
 /**
  * Created by martin on 17-10-10.
  * 要么是函数有问题, Viper 没有办法读取,很难受的
+ *
  */
 public class SetPPAP{
     void display(){

@@ -51,6 +51,9 @@ public class FileSender implements Runnable{
     private Client client;
     private int port;
     private InetAddress address;
+    private int speed;
+    private long time = 0;
+    private int flush = 0;
 
 
 
@@ -117,8 +120,8 @@ public class FileSender implements Runnable{
                 address = InetAddress.getByName(user.getUserHostName());
                 port = Integer.parseInt(user.getUserListenPort());
                 System.out.println("start sending file:");
-                System.out.println("address ---------->" + address.toString());
-                System.out.println("port ------------->" + port);
+                System.out.println("address ----------------------->" + address.toString());
+                System.out.println("port -------------------------->" + port);
             } catch (InterruptedException | UnknownHostException e) {
                 e.printStackTrace();
                 return;
@@ -131,6 +134,7 @@ public class FileSender implements Runnable{
                 array = ByteStreams.toByteArray(inputStream);
                 lastPackageNum = array.length / MSS;
                 if(array.length % MSS > 0) lastPackageNum ++;
+                System.out.println("the largest pkg number -------->" + (lastPackageNum - 1));
 
 
                 // 创建通信的连接
@@ -156,11 +160,15 @@ public class FileSender implements Runnable{
                 boolean transferOver = false;
 
 
-
+                boolean loss = false;
                 // 开始进入到时间的循环之中
                 while (true) {
                     // 发送数据窗口之下的数据
                     while (!tobeSend.isEmpty()){
+                        if(loss){
+                            System.out.println("we are here");
+                        }
+//                        System.out.println("added " + tobeSend.peek());
                         sendPackage(tobeSend.poll());
                     }
 
@@ -174,21 +182,27 @@ public class FileSender implements Runnable{
                         }catch (SocketTimeoutException e){
                             // 发现超时, 重发
                             tobeSend.add(baseNum);
+                            System.out.println("发现丢包");
+                            loss = true;
                             e.printStackTrace();
                             break;
                         }
 
                         // if window size is dynamic , tobeSend.add() should be used careful !
                         int ack = ByteBuffer.wrap(receivePacket.getData()).getInt();
+//                        System.out.println("接受回执 ack" + ack);
                         if (ack == baseNum) {
                             // 顺序的到达
                             baseNum ++;
                             tobeSend.add(nextSegNum);
                             nextSegNum ++;
 
-                            // 接受到最后一个 ack
-                            if(baseNum == lastPackageNum - 1){
+
+                            // 接受到最后一个 ack, caution, 接受之后, 对于baseNum
+                            if(baseNum == lastPackageNum){
                                 transferOver = true;
+                                System.out.println("发送完毕");
+                                speed = 0;
                                 break;
                             }
 
@@ -258,7 +272,21 @@ public class FileSender implements Runnable{
         // 取出 byte
         int deist = Math.min(array.length, (sendPkgNum + 1)* MSS);
 
+        if(speed == 1000 || speed == 0){
+            if(time != 0){
+                double elapse = (int)(System.currentTimeMillis() - time);
+                elapse = elapse / 1000.0;
+                if(flush % 10 == 0) {
+                    client.setSpeed(1.0 / elapse); // MSS 表示为 1M 的速度
+                }
+                flush ++;
+            }
+            time = System.currentTimeMillis();
+            speed = 0;
+            // 告诉上方显示显示速度
 
+        }
+        speed ++;
         byte[] sendData = Arrays.copyOfRange(array, sendPkgNum * MSS, deist);  // 仅仅添加一个序号
         // 添加 ack
         sendData = makePackage(sendData, sendPkgNum);
@@ -267,7 +295,7 @@ public class FileSender implements Runnable{
                 new DatagramPacket(sendData, sendData.length, address, port);
         try {
             sendSocket.send(sendPacket);
-            System.out.printf("发送package" + sendPkgNum);
+//            System.out.println("发送package" + sendPkgNum);
         } catch (IOException e) {
             e.printStackTrace();
         }
